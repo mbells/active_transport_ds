@@ -1,2 +1,7 @@
+# Temporary files
+.ipynb_checkpoints
+
 # Data directory, files are temporarily downloaded or from linked from another volume
 data/
+# Output of charts
+output/
