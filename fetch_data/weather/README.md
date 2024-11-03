@@ -50,3 +50,7 @@ This data corresponds to three basic sampling frequencies of climate data collec
     Hourly data is provided for each hour of the day requested
     Daily data is provided for each day of the month requested
     Monthly data is provided for each month of the year requested
+
+# More info
+
+[Technical_Documentation.pdf](https://climate.weather.gc.ca/doc/Technical_Documentation.pdf)
