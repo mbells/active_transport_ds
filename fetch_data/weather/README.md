@@ -1,6 +1,7 @@
 # Environment Canada weather data
 
 See https://climate.weather.gc.ca/climate_data/daily_data_e.html?StationID=48569
+Dataset license: https://climate.weather.gc.ca/prods_servs/attachment1_e.html
 
 # Samples:
 

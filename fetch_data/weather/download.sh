@@ -5,6 +5,13 @@ GIT_ROOT=$(cd ${SCRIPT_DIR}; git rev-parse --show-toplevel)
 cd ${GIT_ROOT}/data/weather
 
 
+if [ -f "Station Inventory EN.csv" ]; then
+    echo "Already have Station Inventory EN.csv"
+else
+    wget https://collaboration.cmc.ec.gc.ca/cmc/climate/Get_More_Data_Plus_de_donnees/Station%20Inventory%20EN.csv
+fi
+
+
 stationID=48569 # KITCHENER/WATERLOO, YKF, valid: 2010-2024
 
 #for year in `seq 2010 2011`; do wget --content-disposition "https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=${stationID}&Year=${year}&timeframe=3&submit=Download+Data" ;done
