@@ -1,0 +1,45 @@
+[project]
+name = "osm-toys"
+version = "2025.0.0"
+description = "Fun utility functions for dealing with Open Street Maps."
+license = "MIT"
+
+requires-python = ">= 3.10"
+
+authors = [
+  {name = "Matthew Bells", email = "spam@mbells.ca"},
+]
+maintainers = [
+  {name = "Matthew Bells", email = "spam@mbells.ca"},
+]
+
+dependencies = [
+    "matplotlib",
+    "osmnx",
+    "scikit-learn",
+]
+
+readme = "README.md"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "tox",
+]
+
+test = [
+    "pytest",
+]
+
+[project.scripts]
+osm-toys = "osm_toys:main_cli"
+
+#[project.gui-scripts]
+#spam-gui = "spam:main_gui"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"

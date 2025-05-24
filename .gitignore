@@ -1,6 +1,7 @@
 # Temporary files
 .ipynb_checkpoints
 __pycache__/
+*.egg-info/
 
 # Data directory, files are temporarily downloaded or from linked from another volume
 data/
