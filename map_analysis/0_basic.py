@@ -211,3 +211,28 @@ G_penalized = get_graph_within_radius_with_penalty(center_point=center, traffic_
 # Plot it
 ox.plot_graph(G_penalized, node_size=5, edge_color='black')
 
+----
+# Saving
+
+nx.write_graphml(G, "graph.graphml")
+
+# Read later
+G_loaded = nx.read_graphml("graph.graphml")
+
+----
+# This version preserves OSM-specific tags and geometries as text attributes.
+
+ox.save_graphml(G, filepath="graph.graphml")
+
+----
+total_length = sum(data.get('length', 0) for u, v, k, data in G_penalized.edges(keys=True, data=True))
+print(f"Total length of edges in G_penalized: {total_length:.2f} meters")
+
+--- or
+import osmnx as ox
+
+stats = ox.stats.basic_stats(G_penalized, clean_int_tol=15)
+
+# Get total edge length in meters
+total_length = stats['edge_length_total']
+print(f"Total edge length: {total_length:.2f} meters")
