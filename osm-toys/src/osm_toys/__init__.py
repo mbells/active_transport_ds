@@ -7,11 +7,18 @@ from .nodes import (
     get_nodes_of_type,
     get_crossings,
     get_traffic_signals,
+)
+from .plot import (
     plot_nodes,
     plot_traffic_signals,
     plot_crossings,
+    plot_walkable_debug,
+    plot_graph_with_penalties_and_nodes,
 )
-from .toys import load_dtk, plot_walkable_debug, plot_graph_with_penalties_and_nodes
+
+from .toys import (
+    load_dtk,
+)
 
 from .main_cli import main_cli
 

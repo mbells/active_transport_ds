@@ -6,8 +6,16 @@ import osm_toys
 
 def main_cli():
     outputpath = Path("output/")
-    # Coordinates of King & Victoria
-    center = (43.4516, -80.4925)
+    # Coordinates of City Hall
+    # location="Kitchener-city-hall"
+    # center = (43.4516, -80.4925)
+
+    # location="King-Gaukel"
+    # center=(43.45116514320735, -80.49251978500772)
+
+    location = "King-Victoria"
+    center = (43.45281567737296, -80.49833279176819)
+
     search_radius = 333
     G = osm_toys.load_dtk()
 
@@ -20,10 +28,10 @@ def main_cli():
         G_penalized,
         center,
         search_radius=search_radius,
-        filename=outputpath / "King-Vic-walkable-debug.png",
+        filename=outputpath / f"{location}.walkable-debug.png",
     )
     osm_toys.plot_graph_with_penalties_and_nodes(
-        G_penalized, filename=outputpath / "King-Vic-penalties.png"
+        G_penalized, filename=outputpath / f"{location}.penalties.png"
     )
 
 
