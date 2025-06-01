@@ -109,8 +109,7 @@ def filter_graph_by_network_type(G, network_type="all"):
 def calc_reachable_graph_with_penalty(
     G,
     center_point,
-    search_radius=1000,
-    download_radius=2000,
+    radius=1000,
     network_type="walk",
     traffic_signal_penalty=30,
     proximity_threshold=15,
@@ -123,8 +122,7 @@ def calc_reachable_graph_with_penalty(
     Parameters:
         G
         center_point (tuple): (latitude, longitude)
-        search_radius (int): Distance in meters for inclusion in subgraph (Dijkstra-based)
-        download_radius (int): Distance in meters for OSM download area
+        radius (int): Distance in meters for inclusion in subgraph (Dijkstra-based)
         network_type (str): 'walk', 'drive', 'bike', or 'all'
         traffic_signal_penalty (float): Meters added to edge weight if connected to a traffic signal
         proximity_threshold (float): Distance threshold (in meters) to consider a crossing 'near' a light
@@ -190,10 +188,39 @@ def calc_reachable_graph_with_penalty(
     # Step 6: Compute shortest path distances using penalized weights
     center_node = ox.distance.nearest_nodes(G, X=center_point[1], Y=center_point[0])
     lengths = nx.single_source_dijkstra_path_length(
-        G, center_node, cutoff=search_radius, weight="penalized_length"
+        G, center_node, cutoff=radius, weight="penalized_length"
     )
 
     # Step 7: Build and return the subgraph
     nearby_nodes = set(lengths.keys())
     subgraph = G.subgraph(nearby_nodes).copy()
     return subgraph
+
+
+def calc_reachable_graphs_with_penalty(
+    G,
+    center_point,
+    radiuses=[333, 666, 1000],
+    network_type="walk",
+    traffic_signal_penalty=30,
+    proximity_threshold=15,
+    crossing_max=20,
+    diff=True,
+):
+    search = lambda radius: calc_reachable_graph_with_penalty(
+        G,
+        center_point,
+        search_radius=radius,
+        network_type=network_type,
+        traffic_signal_penalty=traffic_signal_penalty,
+        proximity_threshold=proximity_threshold,
+        crossing_max=crossing_max,
+    )
+    subgraphs = list(map(search, search_radiuses))
+
+    if diff:
+        for sg in range(len(subgraphs)):
+            for prev in range(sg - 1):
+                subgraphs[sg] = nx.difference(subgraphs[sg], subgraphs[prev])
+
+    return subgraphs

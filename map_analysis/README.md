@@ -16,3 +16,12 @@ https://data.waterloo.ca/datasets/KitchenerGIS::traffic-lights/explore
 Updating OpenStreetMap
 https://storymaps.arcgis.com/stories/c1b50fb83ec14c8489365c8a912ad92e
 
+---
+
+Assumptions:
+
+- person can walk at 4km/h, so in 15min will reach 1000m. this is about 1.1m/s
+- person can cycle at 16km/h, so in 15min will reach 4000m. this is about 4.4m/s
+- at traffic signals, person must stop and wait for a signal; the signal is on average 60s
+- so a pedestrian, the traffic signal wait is 66m
+- and a cyclist, the traffic signal wait cost is 264m

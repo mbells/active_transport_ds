@@ -43,7 +43,7 @@ def plot_crossings(ax, G, crossings):
     plot_nodes(ax, G, "crossing", color="gold", size=40, alpha=0.5, label=None)
 
 
-def plot_walkable_debug(G, center, search_radius, filename):
+def plot_walkable_debug(G, center, search_radius):
     # Plot it
     fig, ax = ox.plot_graph(
         G,
@@ -69,11 +69,11 @@ def plot_walkable_debug(G, center, search_radius, filename):
     plot_point(ax, center, color="green", size=50, alpha=0.8)
 
     # plt.show()
-    plt.savefig(filename)
+    # plt.savefig(filename)
 
 
 def plot_graph_with_penalties_and_nodes(
-    G, filename, penalty_attr="penalized_length", base_attr="length"
+    G, penalty_attr="penalized_length", base_attr="length"
 ):
     """
     Plot the graph with penalized edges in red, crossing nodes in orange, and traffic signals in blue.
@@ -140,7 +140,7 @@ def plot_graph_with_penalties_and_nodes(
     ax.legend()
     plt.title("Graph with Penalized Crossings Near Traffic Lights")
     # plt.show()
-    plt.savefig(filename)
+    # plt.savefig(filename)
 
 
 # plot_graph_with_penalties_and_nodes(G_penalized)
