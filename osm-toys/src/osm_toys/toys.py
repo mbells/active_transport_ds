@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import osmnx as ox
 import re
 
+from shapely.geometry import Polygon
+
 # This project:
 import osm_toys
 
@@ -20,7 +22,7 @@ def download_map(query, data_path, buffer_meters=CYCLIST_BUFFER):
     district.to_file(data_path / f"{safename}.geojson", driver="GeoJSON")
 
     poly = district.geometry.values[0]
-    poly = poly.unary_union.convex_hull.buffer(buffer_meters)
+    poly = poly.convex_hull.buffer(buffer_meters)
 
     G = ox.graph_from_polygon(poly, network_type="all")
 
