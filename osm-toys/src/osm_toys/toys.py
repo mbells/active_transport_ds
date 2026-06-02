@@ -13,7 +13,7 @@ CYCLIST_BUFFER = 4000
 
 
 def download_map(query, data_path, buffer_meters=CYCLIST_BUFFER):
-    safename = make_safe(query)
+    safename = make_filename_safe(query)
 
     district = ox.geocode_to_gdf(query)
     district.plot()
@@ -22,7 +22,8 @@ def download_map(query, data_path, buffer_meters=CYCLIST_BUFFER):
     district.to_file(data_path / f"{safename}.geojson", driver="GeoJSON")
 
     poly = district.geometry.values[0]
-    poly = poly.convex_hull.buffer(buffer_meters)
+    poly = poly.buffer(buffer_meters)
+    #poly = poly.unary_union.convex_hull.buffer(buffer_meters)
 
     G = ox.graph_from_polygon(poly, network_type="all")
 
@@ -31,11 +32,11 @@ def download_map(query, data_path, buffer_meters=CYCLIST_BUFFER):
     return G
 
 
-def download_map_point(center_point, name, data_path):
+def download_map_circle(center_point, radius, name, data_path):
     G = ox.graph_from_point(center_point, dist=radius, network_type="all")
     # G = ox.graph_from_bbox(bbox, network_type="all", simplify=False, retain_all=True)
 
-    safename = make_safe(name)
+    safename = make_filename_safe(name)
     filepath = data_path / f"{safename}.graphml"
     ox.save_graphml(G, filepath=filepath)
 
@@ -57,5 +58,5 @@ def load_dtk():
     return ox.load_graphml(filepath="../data/osm-toys/Kitchener-dtk.graphml")
 
 
-def make_safe(query):
+def make_filename_safe(query):
     return re.sub(r"[^a-zA-Z0-9-]+", "-", query)

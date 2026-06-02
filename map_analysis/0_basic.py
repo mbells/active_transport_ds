@@ -1,23 +1,19 @@
-%pip install osmnx matplotlib
+# %% [markdown]
+# How far can you walk in 15min? 1km. (avg speed 4km/h)
+# 
+# How far can you bike in 15min? 3km. (avg speed 10-15km/h)
+# 
+# The cycle length is the time between signals. It is 45-120s usually.
+# Assume this is 60s from any point until a green worst case.
+# 1/15 of the distance = 66 round to 70.
 
-----
-
-How far can you walk in 15min? 1km. (avg speed 4km/h)
-
-How far can you bike in 15min? 3km. (avg speed 10-15km/h)
-
-The cycle length is the time between signals. It is 45-120s usually.
-Assume this is 60s from any point until a green worst case.
-1/15 of the distance = 66 round to 70.
-
-----
-
+# %%
 
 import osmnx as ox
 import matplotlib.pyplot as plt
 import networkx as nx
 
-----
+# %%
 
 network_type='all'
 network_type='walk'
@@ -38,7 +34,7 @@ G = ox.graph_from_point(center_point, dist=radius, network_type='all')
 # 5. Plot the map
 fig, ax = ox.plot_graph(G, node_size=5, edge_color='#555555', bgcolor='white')
 
-----
+# %%
 
 def get_graph_within_radius(center_point, search_radius=1000, download_radius=3000, network_type='walk'):
     """
@@ -71,7 +67,7 @@ def get_graph_within_radius(center_point, search_radius=1000, download_radius=30
     
     return subgraph
 
-----
+# %%
 # usage:
     
 # Coordinates of King & Victoria, Kitchener, ON
@@ -83,7 +79,7 @@ G_sub = get_graph_within_radius(center_point=center, search_radius=1000)
 # Plot the result
 ox.plot_graph(G_sub, node_size=5, edge_color='black', bgcolor='white')
 
-----
+# %%
 
 
 
@@ -122,7 +118,7 @@ ax.scatter(x, y, c='red', s=30, label='Traffic Lights')
 ax.legend()
 plt.show()
 
-----
+# %%
 
 from geopy.geocoders import Nominatim
 
@@ -147,7 +143,7 @@ def get_intersection_coordinates(intersection_query, city='Kitchener, ON, Canada
         return None
     
     
-----
+# %%
 import osmnx as ox
 import networkx as nx
 
@@ -200,7 +196,7 @@ def get_graph_within_radius_with_penalty(center_point,
     return subgraph
 
 
-----
+# %%
 
 # Coordinates of King & Victoria
 center = (43.4516, -80.4925)
@@ -211,7 +207,7 @@ G_penalized = get_graph_within_radius_with_penalty(center_point=center, traffic_
 # Plot it
 ox.plot_graph(G_penalized, node_size=5, edge_color='black')
 
-----
+# %%
 # Saving
 
 nx.write_graphml(G, "graph.graphml")
@@ -219,16 +215,16 @@ nx.write_graphml(G, "graph.graphml")
 # Read later
 G_loaded = nx.read_graphml("graph.graphml")
 
-----
+# %%
 # This version preserves OSM-specific tags and geometries as text attributes.
 
 ox.save_graphml(G, filepath="graph.graphml")
 
-----
+# %%
 total_length = sum(data.get('length', 0) for u, v, k, data in G_penalized.edges(keys=True, data=True))
 print(f"Total length of edges in G_penalized: {total_length:.2f} meters")
 
---- or
+# --- or
 import osmnx as ox
 
 stats = ox.stats.basic_stats(G_penalized, clean_int_tol=15)
