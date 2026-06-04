@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
+import os
 import osmnx as ox
 import re
 
+from pathlib import Path
 from shapely.geometry import Polygon
 
 # This project:
@@ -11,6 +13,21 @@ import osm_toys
 PEDESTRIAN_BUFFER = 1000
 CYCLIST_BUFFER = 4000
 
+
+def cwd_git_root(cwd: Path | str | None = None) -> Path:
+    """Finds the root of the git repository by looking for the .git directory.
+    Starts from the given cwd (or current working directory if None) and moves up.
+    """
+    if cwd is None:
+        cwd = Path.cwd()
+    if isinstance(cwd, str):
+        cwd = Path(cwd)
+    while not (cwd / ".git").is_dir():
+        parent = cwd.parent
+        if parent == cwd:  # Reached the root of the filesystem
+            raise Exception("No .git directory found in any parent directories.")
+        cwd = parent
+    return cwd
 
 def download_map(query, data_path, buffer_meters=CYCLIST_BUFFER):
     safename = make_filename_safe(query)
